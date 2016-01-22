@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DocCtrlXModelStoreContainer" CdmEntityContainer="DocCtrlXEntities">
+    <EntitySetMapping Name="td_distribution">
+      <EntityTypeMapping TypeName="DocCtrlXModel.td_distribution">
+        <MappingFragment StoreEntitySet="td_distribution">
+          <ScalarProperty Name="group_id" ColumnName="group_id" />
+          <ScalarProperty Name="doc_no" ColumnName="doc_no" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="td_doc">
+      <EntityTypeMapping TypeName="DocCtrlXModel.td_doc">
+        <MappingFragment StoreEntitySet="td_doc">
+          <ScalarProperty Name="attach" ColumnName="attach" />
+          <ScalarProperty Name="receive_date" ColumnName="receive_date" />
+          <ScalarProperty Name="eff_date" ColumnName="eff_date" />
+          <ScalarProperty Name="change_point" ColumnName="change_point" />
+          <ScalarProperty Name="cust_no" ColumnName="cust_no" />
+          <ScalarProperty Name="doc_type_id" ColumnName="doc_type_id" />
+          <ScalarProperty Name="doc_rev" ColumnName="doc_rev" />
+          <ScalarProperty Name="doc_name" ColumnName="doc_name" />
+          <ScalarProperty Name="doc_no" ColumnName="doc_no" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="td_tran">
+      <EntityTypeMapping TypeName="DocCtrlXModel.td_tran">
+        <MappingFragment StoreEntitySet="td_tran">
+          <ScalarProperty Name="comment" ColumnName="comment" />
+          <ScalarProperty Name="act_dt" ColumnName="act_dt" />
+          <ScalarProperty Name="action_id" ColumnName="action_id" />
+          <ScalarProperty Name="status_id" ColumnName="status_id" />
+          <ScalarProperty Name="lv_id" ColumnName="lv_id" />
+          <ScalarProperty Name="org" ColumnName="org" />
+          <ScalarProperty Name="doc_no" ColumnName="doc_no" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tm_doc_type">
+      <EntityTypeMapping TypeName="DocCtrlXModel.tm_doc_type">
+        <MappingFragment StoreEntitySet="tm_doc_type">
+          <ScalarProperty Name="doc_type_name" ColumnName="doc_type_name" />
+          <ScalarProperty Name="doc_type_id" ColumnName="doc_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tm_level">
+      <EntityTypeMapping TypeName="DocCtrlXModel.tm_level">
+        <MappingFragment StoreEntitySet="tm_level">
+          <ScalarProperty Name="pos_max" ColumnName="pos_max" />
+          <ScalarProperty Name="pos_min" ColumnName="pos_min" />
+          <ScalarProperty Name="lv_name" ColumnName="lv_name" />
+          <ScalarProperty Name="lv_id" ColumnName="lv_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

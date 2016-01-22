@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DocCtrlXModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="DocCtrlXModelStoreContainer">
+          <EntitySet Name="td_distribution" EntityType="DocCtrlXModel.Store.td_distribution" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="td_doc" EntityType="DocCtrlXModel.Store.td_doc" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="td_tran" EntityType="DocCtrlXModel.Store.td_tran" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tm_doc_type" EntityType="DocCtrlXModel.Store.tm_doc_type" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tm_level" EntityType="DocCtrlXModel.Store.tm_level" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_td_distribution_td_doc" Association="DocCtrlXModel.Store.FK_td_distribution_td_doc">
+            <End Role="td_doc" EntitySet="td_doc" />
+            <End Role="td_distribution" EntitySet="td_distribution" />
+          </AssociationSet>
+          <AssociationSet Name="FK_td_doc_tm_doc_type" Association="DocCtrlXModel.Store.FK_td_doc_tm_doc_type">
+            <End Role="tm_doc_type" EntitySet="tm_doc_type" />
+            <End Role="td_doc" EntitySet="td_doc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_td_tran_td_doc" Association="DocCtrlXModel.Store.FK_td_tran_td_doc">
+            <End Role="td_doc" EntitySet="td_doc" />
+            <End Role="td_tran" EntitySet="td_tran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_td_tran_tm_level" Association="DocCtrlXModel.Store.FK_td_tran_tm_level">
+            <End Role="tm_level" EntitySet="tm_level" />
+            <End Role="td_tran" EntitySet="td_tran" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="td_distribution">
+          <Key>
+            <PropertyRef Name="doc_no" />
+            <PropertyRef Name="group_id" />
+          </Key>
+          <Property Name="doc_no" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="group_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="td_doc">
+          <Key>
+            <PropertyRef Name="doc_no" />
+          </Key>
+          <Property Name="doc_no" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="doc_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="doc_rev" Type="int" />
+          <Property Name="doc_type_id" Type="tinyint" Nullable="false" />
+          <Property Name="cust_no" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="change_point" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="eff_date" Type="date" Nullable="false" />
+          <Property Name="receive_date" Type="date" Nullable="false" />
+          <Property Name="attach" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="td_tran">
+          <Key>
+            <PropertyRef Name="doc_no" />
+            <PropertyRef Name="org" />
+            <PropertyRef Name="lv_id" />
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="doc_no" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="org" Type="int" Nullable="false" />
+          <Property Name="lv_id" Type="tinyint" Nullable="false" />
+          <Property Name="status_id" Type="int" Nullable="false" />
+          <Property Name="action_id" Type="nvarchar" MaxLength="10" />
+          <Property Name="act_dt" Type="datetime" Nullable="false" />
+          <Property Name="comment" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tm_doc_type">
+          <Key>
+            <PropertyRef Name="doc_type_id" />
+          </Key>
+          <Property Name="doc_type_id" Type="tinyint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="doc_type_name" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tm_level">
+          <Key>
+            <PropertyRef Name="lv_id" />
+          </Key>
+          <Property Name="lv_id" Type="tinyint" Nullable="false" />
+          <Property Name="lv_name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="pos_min" Type="tinyint" />
+          <Property Name="pos_max" Type="tinyint" />
+        </EntityType>
+        <Association Name="FK_td_distribution_td_doc">
+          <End Role="td_doc" Type="DocCtrlXModel.Store.td_doc" Multiplicity="1" />
+          <End Role="td_distribution" Type="DocCtrlXModel.Store.td_distribution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="td_doc">
+              <PropertyRef Name="doc_no" />
+            </Principal>
+            <Dependent Role="td_distribution">
+              <PropertyRef Name="doc_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_td_doc_tm_doc_type">
+          <End Role="tm_doc_type" Type="DocCtrlXModel.Store.tm_doc_type" Multiplicity="1" />
+          <End Role="td_doc" Type="DocCtrlXModel.Store.td_doc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tm_doc_type">
+              <PropertyRef Name="doc_type_id" />
+            </Principal>
+            <Dependent Role="td_doc">
+              <PropertyRef Name="doc_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_td_tran_td_doc">
+          <End Role="td_doc" Type="DocCtrlXModel.Store.td_doc" Multiplicity="1" />
+          <End Role="td_tran" Type="DocCtrlXModel.Store.td_tran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="td_doc">
+              <PropertyRef Name="doc_no" />
+            </Principal>
+            <Dependent Role="td_tran">
+              <PropertyRef Name="doc_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_td_tran_tm_level">
+          <End Role="tm_level" Type="DocCtrlXModel.Store.tm_level" Multiplicity="1" />
+          <End Role="td_tran" Type="DocCtrlXModel.Store.td_tran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tm_level">
+              <PropertyRef Name="lv_id" />
+            </Principal>
+            <Dependent Role="td_tran">
+              <PropertyRef Name="lv_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DocCtrlXModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DocCtrlXEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="td_distribution" EntityType="DocCtrlXModel.td_distribution" />
+          <EntitySet Name="td_doc" EntityType="DocCtrlXModel.td_doc" />
+          <EntitySet Name="td_tran" EntityType="DocCtrlXModel.td_tran" />
+          <EntitySet Name="tm_doc_type" EntityType="DocCtrlXModel.tm_doc_type" />
+          <EntitySet Name="tm_level" EntityType="DocCtrlXModel.tm_level" />
+          <AssociationSet Name="FK_td_distribution_td_doc" Association="DocCtrlXModel.FK_td_distribution_td_doc">
+            <End Role="td_doc" EntitySet="td_doc" />
+            <End Role="td_distribution" EntitySet="td_distribution" />
+          </AssociationSet>
+          <AssociationSet Name="FK_td_doc_tm_doc_type" Association="DocCtrlXModel.FK_td_doc_tm_doc_type">
+            <End Role="tm_doc_type" EntitySet="tm_doc_type" />
+            <End Role="td_doc" EntitySet="td_doc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_td_tran_td_doc" Association="DocCtrlXModel.FK_td_tran_td_doc">
+            <End Role="td_doc" EntitySet="td_doc" />
+            <End Role="td_tran" EntitySet="td_tran" />
+          </AssociationSet>
+          <AssociationSet Name="FK_td_tran_tm_level" Association="DocCtrlXModel.FK_td_tran_tm_level">
+            <End Role="tm_level" EntitySet="tm_level" />
+            <End Role="td_tran" EntitySet="td_tran" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="td_distribution">
+          <Key>
+            <PropertyRef Name="doc_no" />
+            <PropertyRef Name="group_id" />
+          </Key>
+          <Property Type="String" Name="doc_no" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="group_id" Nullable="false" />
+          <NavigationProperty Name="td_doc" Relationship="DocCtrlXModel.FK_td_distribution_td_doc" FromRole="td_distribution" ToRole="td_doc" />
+        </EntityType>
+        <EntityType Name="td_doc">
+          <Key>
+            <PropertyRef Name="doc_no" />
+          </Key>
+          <Property Type="String" Name="doc_no" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="doc_name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="doc_rev" />
+          <Property Type="Byte" Name="doc_type_id" Nullable="false" />
+          <Property Type="String" Name="cust_no" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="change_point" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="eff_date" Nullable="false" Precision="0" />
+          <Property Type="DateTime" Name="receive_date" Nullable="false" Precision="0" />
+          <Property Type="String" Name="attach" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="td_distribution" Relationship="DocCtrlXModel.FK_td_distribution_td_doc" FromRole="td_doc" ToRole="td_distribution" />
+          <NavigationProperty Name="tm_doc_type" Relationship="DocCtrlXModel.FK_td_doc_tm_doc_type" FromRole="td_doc" ToRole="tm_doc_type" />
+          <NavigationProperty Name="td_tran" Relationship="DocCtrlXModel.FK_td_tran_td_doc" FromRole="td_doc" ToRole="td_tran" />
+        </EntityType>
+        <EntityType Name="td_tran">
+          <Key>
+            <PropertyRef Name="doc_no" />
+            <PropertyRef Name="org" />
+            <PropertyRef Name="lv_id" />
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Type="String" Name="doc_no" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="org" Nullable="false" />
+          <Property Type="Byte" Name="lv_id" Nullable="false" />
+          <Property Type="Int32" Name="status_id" Nullable="false" />
+          <Property Type="String" Name="action_id" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="act_dt" Nullable="false" Precision="3" />
+          <Property Type="String" Name="comment" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="td_doc" Relationship="DocCtrlXModel.FK_td_tran_td_doc" FromRole="td_tran" ToRole="td_doc" />
+          <NavigationProperty Name="tm_level" Relationship="DocCtrlXModel.FK_td_tran_tm_level" FromRole="td_tran" ToRole="tm_level" />
+        </EntityType>
+        <EntityType Name="tm_doc_type">
+          <Key>
+            <PropertyRef Name="doc_type_id" />
+          </Key>
+          <Property Type="Byte" Name="doc_type_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="doc_type_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="td_doc" Relationship="DocCtrlXModel.FK_td_doc_tm_doc_type" FromRole="tm_doc_type" ToRole="td_doc" />
+        </EntityType>
+        <EntityType Name="tm_level">
+          <Key>
+            <PropertyRef Name="lv_id" />
+          </Key>
+          <Property Type="Byte" Name="lv_id" Nullable="false" />
+          <Property Type="String" Name="lv_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Byte" Name="pos_min" />
+          <Property Type="Byte" Name="pos_max" />
+          <NavigationProperty Name="td_tran" Relationship="DocCtrlXModel.FK_td_tran_tm_level" FromRole="tm_level" ToRole="td_tran" />
+        </EntityType>
+        <Association Name="FK_td_distribution_td_doc">
+          <End Type="DocCtrlXModel.td_doc" Role="td_doc" Multiplicity="1" />
+          <End Type="DocCtrlXModel.td_distribution" Role="td_distribution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="td_doc">
+              <PropertyRef Name="doc_no" />
+            </Principal>
+            <Dependent Role="td_distribution">
+              <PropertyRef Name="doc_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_td_doc_tm_doc_type">
+          <End Type="DocCtrlXModel.tm_doc_type" Role="tm_doc_type" Multiplicity="1" />
+          <End Type="DocCtrlXModel.td_doc" Role="td_doc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tm_doc_type">
+              <PropertyRef Name="doc_type_id" />
+            </Principal>
+            <Dependent Role="td_doc">
+              <PropertyRef Name="doc_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_td_tran_td_doc">
+          <End Type="DocCtrlXModel.td_doc" Role="td_doc" Multiplicity="1" />
+          <End Type="DocCtrlXModel.td_tran" Role="td_tran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="td_doc">
+              <PropertyRef Name="doc_no" />
+            </Principal>
+            <Dependent Role="td_tran">
+              <PropertyRef Name="doc_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_td_tran_tm_level">
+          <End Type="DocCtrlXModel.tm_level" Role="tm_level" Multiplicity="1" />
+          <End Type="DocCtrlXModel.td_tran" Role="td_tran" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tm_level">
+              <PropertyRef Name="lv_id" />
+            </Principal>
+            <Dependent Role="td_tran">
+              <PropertyRef Name="lv_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DocCtrlXModelStoreContainer" CdmEntityContainer="DocCtrlXEntities">
+          <EntitySetMapping Name="td_distribution">
+            <EntityTypeMapping TypeName="DocCtrlXModel.td_distribution">
+              <MappingFragment StoreEntitySet="td_distribution">
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="doc_no" ColumnName="doc_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="td_doc">
+            <EntityTypeMapping TypeName="DocCtrlXModel.td_doc">
+              <MappingFragment StoreEntitySet="td_doc">
+                <ScalarProperty Name="attach" ColumnName="attach" />
+                <ScalarProperty Name="receive_date" ColumnName="receive_date" />
+                <ScalarProperty Name="eff_date" ColumnName="eff_date" />
+                <ScalarProperty Name="change_point" ColumnName="change_point" />
+                <ScalarProperty Name="cust_no" ColumnName="cust_no" />
+                <ScalarProperty Name="doc_type_id" ColumnName="doc_type_id" />
+                <ScalarProperty Name="doc_rev" ColumnName="doc_rev" />
+                <ScalarProperty Name="doc_name" ColumnName="doc_name" />
+                <ScalarProperty Name="doc_no" ColumnName="doc_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="td_tran">
+            <EntityTypeMapping TypeName="DocCtrlXModel.td_tran">
+              <MappingFragment StoreEntitySet="td_tran">
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="act_dt" ColumnName="act_dt" />
+                <ScalarProperty Name="action_id" ColumnName="action_id" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="lv_id" ColumnName="lv_id" />
+                <ScalarProperty Name="org" ColumnName="org" />
+                <ScalarProperty Name="doc_no" ColumnName="doc_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tm_doc_type">
+            <EntityTypeMapping TypeName="DocCtrlXModel.tm_doc_type">
+              <MappingFragment StoreEntitySet="tm_doc_type">
+                <ScalarProperty Name="doc_type_name" ColumnName="doc_type_name" />
+                <ScalarProperty Name="doc_type_id" ColumnName="doc_type_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tm_level">
+            <EntityTypeMapping TypeName="DocCtrlXModel.tm_level">
+              <MappingFragment StoreEntitySet="tm_level">
+                <ScalarProperty Name="pos_max" ColumnName="pos_max" />
+                <ScalarProperty Name="pos_min" ColumnName="pos_min" />
+                <ScalarProperty Name="lv_name" ColumnName="lv_name" />
+                <ScalarProperty Name="lv_id" ColumnName="lv_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

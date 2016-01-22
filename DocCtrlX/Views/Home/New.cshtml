@@ -1,0 +1,200 @@
+﻿@{
+    ViewBag.Title = "New";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$.validate({
+        //    modules: 'file',
+        //    form: '#formDocx'
+        //});
+
+        //Datepicker Setting
+        $(".datepicker").datepicker({
+            dateFormat: 'dd-mm-yy'
+        });
+
+        $("#txtEffDate").datepicker({
+            dateFormat: 'dd-mm-yy',
+            minDate: new Date()//set minDate is today
+        });
+
+        $('#txtConcern').select2({
+            multiple: true,
+            placeholder: "Select Concern section.",
+            ajax: {
+                url: '@Url.Action("Selecte2TNCGroup", "Home")',
+                dataType: 'json',
+                data: function (term, page) {
+                    return {
+                        searchTerm: term
+                    };
+                },
+                results: function (data, page) {
+                    return { results: data };
+                }
+            },
+            formatResult: function (item) { return item.text; },
+            formatSelection: function (item) { return item.text; }
+        });
+
+        $('#txtDist').select2({
+            multiple: true,
+            placeholder: "Select Inform section.",
+            ajax: {
+                url: '@Url.Action("Selecte2TNCGroup", "Home")',
+                dataType: 'json',
+                data: function (term, page) {
+                    return {
+                        searchTerm: term
+                    };
+                },
+                results: function (data, page) {
+                    return { results: data };
+                }
+            },
+            formatResult: function (item) { return item.text; },
+            formatSelection: function (item) { return item.text; }
+        });
+
+        $.validate({
+            form: '#formDocx',
+            modules: 'file',
+            onSuccess: function ($form) {
+                if ($("#s2id_txtConcern").children().eq(0).children().length <= 1) {
+                    alert("Please select Concern section at least one.");
+                    return false;
+                }
+
+                if ($("#s2id_txtDist").children().eq(0).children().length <= 1) {
+                    alert("Please select Inform section at least one.");
+                    return false;
+                }
+
+                if (confirm("Are you sure you want to submit ?")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+    });
+</script>
+
+<form class="form-horizontal" id="formDocx" name="formDocx" action="@Url.Action("NewDoc", "Home")" method="post" enctype="multipart/form-data">
+<fieldset>
+
+<!-- Form Name -->
+<legend>New</legend>
+
+<!-- Select Basic -->
+<div class="control-group">
+  <label class="control-label" for="selCust">Customer name (Full name) :</label>
+  <div class="controls">
+    <select id="selCust" name="selCust" class="input-xxlarge" data-validation="required">
+        <option value="">--Please select--</option>
+        @foreach (var item in ViewBag.DocType)
+        {
+        <option value="@item.doc_type_id">@item.doc_type_name</option>    
+        }
+    </select>
+    <span class="badge badge-warning">**</span>
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="control-group">
+  <label class="control-label" for="selDocType">Document Type :</label>
+  <div class="controls">
+    <select id="selDocType" name="selDocType" class="input-large" data-validation="required">
+        <option value="">--Please select--</option>
+        @foreach (var item in ViewBag.DocType)
+        {
+        <option value="@item.doc_type_id">@item.doc_type_name</option>    
+        }
+    </select>
+    <span class="badge badge-warning">**</span>
+  </div>
+</div>
+
+    <!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="txtDocNo">Document No. : </label>
+  <div class="controls">
+    <input id="txtDocNo" name="txtDocNo" type="text" placeholder="Document No." class="input-large">
+  </div>
+</div>
+
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="txtDocName">Document Name : </label>
+  <div class="controls">
+    <input id="txtDocName" name="txtDocName" type="text" placeholder="Document Name" class="input-xxlarge" data-validation="required">
+    <span class="badge badge-warning">**</span>
+  </div>
+</div>
+
+<div class="control-group">
+  <label class="control-label" for="atfile">Attach File : </label>
+  <div class="controls">
+    <input type="file" id="atfile" name="atfile" class="input-file" data-validation="required">
+    <span class="badge badge-warning">**</span>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="txtEffDate">Eff. Date (Referance document from customer) :</label>
+  <div class="controls">
+    <input id="txtEffDate" name="txtEffDate" type="text" placeholder="" class="input-medium">
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="txtRecDate">Received from customer date :</label>
+  <div class="controls">
+    <input id="txtRecDate" name="txtRecDate" type="text" placeholder="" class="input-medium datepicker" data-validation="required">
+    <span class="badge badge-warning">**</span>
+  </div>
+</div>
+
+<!-- Textarea -->
+<div class="control-group">
+  <label class="control-label" for="txaChange">Change point :</label>
+  <div class="controls">                     
+    <textarea id="txaChange" name="txaChange" class="input-xxlarge" data-validation="required" placeholder="Change point"></textarea>
+    <span class="badge badge-warning">**</span>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="txtConcern">Concern section :</label>
+  <div class="controls">
+    <input id="txtConcern" name="txtConcern" type="text" class="input-xxlarge">
+    <span class="badge badge-warning">**</span>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="control-group">
+  <label class="control-label" for="txtDist">Distribution list :</label>
+  <div class="controls">
+    <input id="txtDist" name="txtDist" type="text" class="input-xxlarge">
+    <span class="badge badge-warning">**</span>
+  </div>
+</div>
+
+<!-- Button (Double) -->
+<div class="control-group">
+  <label class="control-label" for="btnSubmit"></label>
+  <div class="controls">
+    <button id="btnSubmit" name="btnSubmit" type="submit" class="btn btn-large btn-primary input-xxlarge">Submit</button>
+    @*<button id="btnClear" name="btnClear" type="reset" class="btn btn-danger">Clear</button>*@
+  </div>
+</div>
+
+</fieldset>
+</form>

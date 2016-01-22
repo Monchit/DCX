@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DocCtrlXModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DocCtrlXModelStoreContainer">
+    <EntitySet Name="td_distribution" EntityType="DocCtrlXModel.Store.td_distribution" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="td_doc" EntityType="DocCtrlXModel.Store.td_doc" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="td_tran" EntityType="DocCtrlXModel.Store.td_tran" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tm_doc_type" EntityType="DocCtrlXModel.Store.tm_doc_type" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tm_level" EntityType="DocCtrlXModel.Store.tm_level" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_td_distribution_td_doc" Association="DocCtrlXModel.Store.FK_td_distribution_td_doc">
+      <End Role="td_doc" EntitySet="td_doc" />
+      <End Role="td_distribution" EntitySet="td_distribution" />
+    </AssociationSet>
+    <AssociationSet Name="FK_td_doc_tm_doc_type" Association="DocCtrlXModel.Store.FK_td_doc_tm_doc_type">
+      <End Role="tm_doc_type" EntitySet="tm_doc_type" />
+      <End Role="td_doc" EntitySet="td_doc" />
+    </AssociationSet>
+    <AssociationSet Name="FK_td_tran_td_doc" Association="DocCtrlXModel.Store.FK_td_tran_td_doc">
+      <End Role="td_doc" EntitySet="td_doc" />
+      <End Role="td_tran" EntitySet="td_tran" />
+    </AssociationSet>
+    <AssociationSet Name="FK_td_tran_tm_level" Association="DocCtrlXModel.Store.FK_td_tran_tm_level">
+      <End Role="tm_level" EntitySet="tm_level" />
+      <End Role="td_tran" EntitySet="td_tran" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="td_distribution">
+    <Key>
+      <PropertyRef Name="doc_no" />
+      <PropertyRef Name="group_id" />
+    </Key>
+    <Property Name="doc_no" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="group_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="td_doc">
+    <Key>
+      <PropertyRef Name="doc_no" />
+    </Key>
+    <Property Name="doc_no" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="doc_name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="doc_rev" Type="int" />
+    <Property Name="doc_type_id" Type="tinyint" Nullable="false" />
+    <Property Name="cust_no" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="change_point" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="eff_date" Type="date" Nullable="false" />
+    <Property Name="receive_date" Type="date" Nullable="false" />
+    <Property Name="attach" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="td_tran">
+    <Key>
+      <PropertyRef Name="doc_no" />
+      <PropertyRef Name="org" />
+      <PropertyRef Name="lv_id" />
+      <PropertyRef Name="status_id" />
+    </Key>
+    <Property Name="doc_no" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="org" Type="int" Nullable="false" />
+    <Property Name="lv_id" Type="tinyint" Nullable="false" />
+    <Property Name="status_id" Type="int" Nullable="false" />
+    <Property Name="action_id" Type="nvarchar" MaxLength="10" />
+    <Property Name="act_dt" Type="datetime" Nullable="false" />
+    <Property Name="comment" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="tm_doc_type">
+    <Key>
+      <PropertyRef Name="doc_type_id" />
+    </Key>
+    <Property Name="doc_type_id" Type="tinyint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="doc_type_name" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tm_level">
+    <Key>
+      <PropertyRef Name="lv_id" />
+    </Key>
+    <Property Name="lv_id" Type="tinyint" Nullable="false" />
+    <Property Name="lv_name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="pos_min" Type="tinyint" />
+    <Property Name="pos_max" Type="tinyint" />
+  </EntityType>
+  <Association Name="FK_td_distribution_td_doc">
+    <End Role="td_doc" Type="DocCtrlXModel.Store.td_doc" Multiplicity="1" />
+    <End Role="td_distribution" Type="DocCtrlXModel.Store.td_distribution" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="td_doc">
+        <PropertyRef Name="doc_no" />
+      </Principal>
+      <Dependent Role="td_distribution">
+        <PropertyRef Name="doc_no" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_td_doc_tm_doc_type">
+    <End Role="tm_doc_type" Type="DocCtrlXModel.Store.tm_doc_type" Multiplicity="1" />
+    <End Role="td_doc" Type="DocCtrlXModel.Store.td_doc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tm_doc_type">
+        <PropertyRef Name="doc_type_id" />
+      </Principal>
+      <Dependent Role="td_doc">
+        <PropertyRef Name="doc_type_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_td_tran_td_doc">
+    <End Role="td_doc" Type="DocCtrlXModel.Store.td_doc" Multiplicity="1" />
+    <End Role="td_tran" Type="DocCtrlXModel.Store.td_tran" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="td_doc">
+        <PropertyRef Name="doc_no" />
+      </Principal>
+      <Dependent Role="td_tran">
+        <PropertyRef Name="doc_no" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_td_tran_tm_level">
+    <End Role="tm_level" Type="DocCtrlXModel.Store.tm_level" Multiplicity="1" />
+    <End Role="td_tran" Type="DocCtrlXModel.Store.td_tran" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tm_level">
+        <PropertyRef Name="lv_id" />
+      </Principal>
+      <Dependent Role="td_tran">
+        <PropertyRef Name="lv_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

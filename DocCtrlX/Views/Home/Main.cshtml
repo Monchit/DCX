@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "Main";
+}
+<style type="text/css">
+    /*fix jTable*/
+    span.jtable-goto-page select, span.jtable-page-size-change select {
+        height: 25px;
+        width: 60px;
+        padding: 2px 2px;
+        margin-bottom:auto;
+    }
+    div.jtable-main-container table.jtable thead th {
+        text-align: center;
+    }
+    div.jtable-main-container > table.jtable > tbody > tr.jtable-data-row > td {
+        text-align: center;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#jTableMain').jtable({
+            title: 'Document',
+            paging: true, //Enable paging
+            pageSize: 10, //Set page size (default: 10)
+            sorting: true, //Enable sorting
+            selecting: true, //Enable selecting
+            multiselect: false, //Allow multiple selecting
+            defaultSorting: 'doc_no ASC', //Set default sorting
+            actions: {
+                listAction: '@Url.Action("MainList","Home")'
+            },
+            fields: {
+                doc_no: { title: 'Doc No.' },
+                doc_name: { title: 'Doc Name' },
+                doc_type_id: { title: 'Doc Type', options: '@Url.Action("GetDocTypeList","Home")' },
+                cust_no: { title: 'Customer', options: '@Url.Action("GetCustomerList","Home")' },
+                change_point: { title: 'Change Point' },
+                eff_date: { title: 'Eff. Date', type: 'date', displayFormat: 'yy-mm-dd' }
+            }
+        });
+        
+        //Re-load records when user click 'load records' button.
+        $('#btnSubmit').click(function (e) {
+            e.preventDefault();
+            $('#jTableMain').jtable('load', {
+                doc_no: $('#docno').val(),
+                doc_name: $('#docname').val(),
+                cust_no: $('#selCust').val()
+            });
+        });
+    });
+</script>
+
+<h2>Main</h2>
+
+<div class="accordion" id="accordion1">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
+        Search Condition
+      </a>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse in">
+      <div class="accordion-inner">
+        <form name="formFilter" id="formFilter" class="form-horizontal1">
+            
+            <div class="control-group">
+                <label class="control-label" for="selCust">Customer name : </label>
+                <div class="controls">
+                    <select id="selCust" name="selCust" class="input-xlarge">
+                        <option value="0">--All Customer--</option>
+                        @*@foreach (var item in ViewBag.SelectGroup)
+                        {
+                        <option value="@item.id">@item.group_name</option>
+                        }*@
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="docno">Document Type : </label>
+                <div class="controls">
+                    <select id="selDocType" name="selDocType" class="input-medium">
+                        <option value="">--Please select--</option>
+                        @*@foreach (var item in ViewBag.DocType)
+                        {
+                        <option value="@item.doc_type_id">@item.doc_type_name</option>    
+                        }*@
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="docno">Document No. : </label>
+                <div class="controls">
+                    <input type="text" id="docno" name="docno" class="input-medium">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="docname">Document Name : </label>
+                <div class="controls">
+                    <input type="text" id="docname" name="docname" class="input-medium">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-info"><i class="icon-search icon-white"></i> Search</button>
+                </div>
+            </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="jTableMain"></div>

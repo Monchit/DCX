@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="557bbc6e14ec48ae896d14a18998f3f1" Name="Diagram1">
+        <EntityTypeShape EntityType="DocCtrlXModel.td_distribution" Width="1.5" PointX="12.875" PointY="7.5" />
+        <EntityTypeShape EntityType="DocCtrlXModel.td_doc" Width="1.5" PointX="11.746849128858582" PointY="3.2009025380019578" />
+        <EntityTypeShape EntityType="DocCtrlXModel.td_tran" Width="1.5" PointX="17.125" PointY="7.5" />
+        <EntityTypeShape EntityType="DocCtrlXModel.tm_doc_type" Width="1.5" PointX="12.875" PointY="9.5" />
+        <EntityTypeShape EntityType="DocCtrlXModel.tm_level" Width="1.5" PointX="19.25" PointY="7.5" />
+        <AssociationConnector Association="DocCtrlXModel.FK_td_distribution_td_doc" />
+        <AssociationConnector Association="DocCtrlXModel.FK_td_doc_tm_doc_type" />
+        <AssociationConnector Association="DocCtrlXModel.FK_td_tran_td_doc" />
+        <AssociationConnector Association="DocCtrlXModel.FK_td_tran_tm_level" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

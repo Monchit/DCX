@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        @if (TempData["noty"] != null)
+        {
+            <text>
+            noty({
+                text: '@TempData["noty"].ToString()',
+                type: 'warning',
+                layout: 'center',
+                timeout: 8000
+            });
+            </text>
+        }
+    });
+</script>
+
+<div class="well">
+    <h4>Objective:</h4>
+    <p>
+        For documents obtained from the outside. Be reviewed within 2 business weeks.
+    </p>
+    <h4>Flow:</h4>
+    <p>
+        Issuer --2 Days--> Mgr. of Issuer --2 Days--> DCC Staff --5 Days--> Concern section (Mgr.) --> DCC Staff
+    </p>
+</div>
